@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة الكنز</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            transition: all 0.5s;
+        }
+
+        /* خلفية لصفحة الترحيب */
+        #welcome-screen {
+            background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.3)),
+                url("map.png") no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            /* تغيير من center إلى flex-start */
+            align-items: center;
+            padding-right: 10%;
+            /* إضافة padding للنصف الأيمن */
+        }
+
+        /* بقية الأنماط تبقى كما هي */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .welcome-card {
+            background-color: rgba(97, 36, 36, 0.05);
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 90%;
+            /* تحديد عرض الصندوق */
+            max-width: 300px;
+            margin-right: 350px;
+            /* أقصى عرض للصندوق */
+        }
+
+        /* خلفية صفحة الأسئلة */
+        #quiz-container {
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+                url("mmap.jpg") no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .welcome-title {
+            font-size: 2.5em;
+            color: #e67e22;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-message {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .start-btn {
+            padding: 15px 30px;
+            background: linear-gradient(to bottom, #e67e22, #d35400);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-btn:hover {
+            background: linear-gradient(to bottom, #d35400, #e67e22);
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* أنماط قسم الأسئلة */
+        .question-text {
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .answer-input {
+            width: 80%;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .answer-input:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
+            outline: none;
+            background-color: white;
+        }
+
+        .submit-btn {
+            padding: 12px 25px;
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(to bottom, #2980b9, #3498db);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .feedback {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 20px 0;
+            min-height: 30px;
+            padding: 12px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .correct {
+            color: #27ae60;
+            background-color: rgba(39, 174, 96, 0.15);
+            border: 1px solid rgba(39, 174, 96, 0.3);
+        }
+
+        .incorrect {
+            color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.15);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .progress {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .score-container {
+            font-size: 1.3em;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(236, 240, 241, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .restart-btn {
+            padding: 12px 25px;
+            background: linear-gradient(to bottom, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .restart-btn:hover {
+            background: linear-gradient(to bottom, #27ae60, #2ecc71);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hint {
+            color: #f39c12;
+            font-style: italic;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: rgba(243, 156, 18, 0.15);
+            border-radius: 5px;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* تأثيرات الحركة */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                width: 95%;
+            }
+
+            .welcome-card,
+            .question-card {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .answer-input {
+                width: 90%;
+            }
+
+            .welcome-title {
+                font-size: 2em;
+            }
+
+            .question-text {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- صفحة الترحيب -->
+        <div id="welcome-screen" class="fade-in">
+            <div class="welcome-card">
+                <h1 class="welcome-title">مرحباً بكم في لعبة الكنز!</h1>
+                <div class="welcome-message">
+                    <p>اختبر معلوماتك للوصول إلى الكنز المفقود!</p>
+                    <p>سيتم عرض سلسلة من الأسئلة، وعليك الإجابة عليها بشكل صحيح للانتقال للسؤال التالي.</p>
+                    <p>كل إجابة صحيحة تقربك خطوة من الكنز!</p>
+                </div>
+                <button class="start-btn" id="start-btn">ابدأ اللعبة</button>
+            </div>
+        </div>
+
+        <!-- قسم الأسئلة (مخفي في البداية) -->
+        <div id="quiz-container" class="hidden">
+            <div class="question-card fade-in">
+                <div class="question-text" id="question">السؤال يظهر هنا</div>
+                <input type="text" class="answer-input" id="user-answer" placeholder="اكتب إجابتك هنا...">
+                <button class="submit-btn" id="submit-btn">إرسال الإجابة</button>
+                <div class="feedback" id="feedback"></div>
+                <div class="hint" id="hint"></div>
+                <div class="progress" id="progress">السؤال 1 من 6</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // قائمة الأسئلة والأجوبة
+        const questions = [
+            {
+                question: "ما هي عاصمة فرنسا؟",
+                correctAnswer: "باريس",
+                hint: "تبدأ بحرف الباء"
+            },
+            {
+                question: "كم عدد كواكب المجموعة الشمسية؟",
+                correctAnswer: "8",
+                hint: "رقم بين 7 و 9"
+            },
+            {
+                question: "ما هو العنصر الكيميائي الذي رمزه O؟",
+                correctAnswer: "أوكسجين",
+                hint: "غاز ضروري للتنفس"
+            },
+            {
+                question: "ما هو الكائن الوحيد الذي يستطيع النوم على ظهره؟",
+                correctAnswer: "الإنسان",
+                hint: "قد شفتوه"
+            },
+            {
+                question: "ما هو أطول نهر في العالم؟",
+                correctAnswer: "النيل",
+                hint: "يوجد في أفريقيا"
+            },
+            {
+                question: "ما هو اخر الدنيا؟",
+                correctAnswer: "ألف",
+                hint: "واخر العليا"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // عرض السؤال الحالي
+        function displayQuestion() {
+            const questionElement = document.getElementById('question');
+            const progressElement = document.getElementById('progress');
+            const userAnswerElement = document.getElementById('user-answer');
+            const hintElement = document.getElementById('hint');
+
+            // تحديث السؤال
+            questionElement.textContent = questions[currentQuestionIndex].question;
+
+            // مسح حقل الإجابة السابقة
+            userAnswerElement.value = '';
+
+            // إعطاء التركيز لحقل الإجابة
+            userAnswerElement.focus();
+
+            // تحديث شريط التقدم
+            progressElement.textContent = `السؤال ${currentQuestionIndex + 1} من ${questions.length}`;
+
+            // مسح أي تعليق سابق
+            document.getElementById('feedback').textContent = '';
+            hintElement.textContent = '';
+        }
+
+        // التحقق من الإجابة
+        function checkAnswer() {
+            const userAnswer = document.getElementById('user-answer').value.trim();
+            const feedbackElement = document.getElementById('feedback');
+            const hintElement = document.getElementById('hint');
+            const correctAnswer = questions[currentQuestionIndex].correctAnswer;
+
+            if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                feedbackElement.textContent = "إجابة صحيحة! ✓";
+                feedbackElement.className = "feedback correct";
+                score++;
+                hintElement.textContent = '';
+
+                // الانتقال إلى السؤال التالي بعد تأخير قصير
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questions.length) {
+                        displayQuestion();
+                    } else {
+                        endQuiz();
+                    }
+                }, 1000);
+            } else {
+                feedbackElement.textContent = "إجابة خاطئة! حاول مرة أخرى";
+                feedbackElement.className = "feedback incorrect";
+                hintElement.textContent = `تلميح: ${questions[currentQuestionIndex].hint}`;
+
+                // إعادة التركيز على حقل الإجابة
+                document.getElementById('user-answer').focus();
+            }
+        }
+
+        // إنهاء الاختبار
+        function endQuiz() {
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.innerHTML = `
+                <div class="question-card fade-in">
+                    <h2>تهانينا! لقد وجدت الكنز! 🏆</h2>
+                    <div class="score-container">
+                        درجتك النهائية: ${score} من ${questions.length}
+                    </div>
+                    <p>لقد نجحت في الإجابة على جميع الأسئلة بشكل صحيح!</p>
+                    <button class="restart-btn" onclick="restartQuiz()">العب مرة أخرى</button>
+                </div>
+            `;
+        }
+
+        // إعادة تشغيل الاختبار
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+
+            // إخفاء شاشة النتائج وإظهار قسم الأسئلة من جديد
+            document.getElementById('quiz-container').innerHTML = `
+                <div class="question-card fade-in">
+                    <div class="question-text" id="question">السؤال يظهر هنا</div>
+                    <input type="text" class="answer-input" id="user-answer" placeholder="اكتب إجابتك هنا...">
+                    <button class="submit-btn" id="submit-btn">إرسال الإجابة</button>
+                    <div class="feedback" id="feedback"></div>
+                    <div class="hint" id="hint"></div>
+                    <div class="progress" id="progress">السؤال 1 من ${questions.length}</div>
+                </div>
+            `;
+
+            // إعادة إرفاق حدث النقر على زر الإرسال
+            document.getElementById('submit-btn').addEventListener('click', checkAnswer);
+
+            // إضافة إمكانية استخدام زر Enter لإرسال الإجابة
+            document.getElementById('user-answer').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
+
+            displayQuestion();
+        }
+
+        // بدء اللعبة عند النقر على زر البدء
+        document.getElementById('start-btn').addEventListener('click', function () {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+
+            // إرفاق حدث النقر على زر الإرسال
+            document.getElementById('submit-btn').addEventListener('click', checkAnswer);
+
+            // إضافة إمكانية استخدام زر Enter لإرسال الإجابة
+            document.getElementById('user-answer').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
+
+            displayQuestion();
+        });
+    </script>
+</body>
+
+</html>
