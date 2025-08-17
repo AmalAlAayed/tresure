@@ -19,16 +19,13 @@
             background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.3)),
                 url("map.png") no-repeat center center;
             background-size: cover;
-            min-height: 100vh;
+            min-height: 300vh;
             display: flex;
             justify-content: flex-start;
-            /* تغيير من center إلى flex-start */
             align-items: center;
             padding-right: 10%;
-            /* إضافة padding للنصف الأيمن */
         }
 
-        /* بقية الأنماط تبقى كما هي */
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -40,14 +37,13 @@
             border-radius: 15px;
             padding: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            margin-bottom: 20px;
+            margin-bottom: 1200px;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             width: 90%;
-            /* تحديد عرض الصندوق */
-            max-width: 300px;
-            margin-right: 350px;
-            /* أقصى عرض للصندوق */
+            max-width: 500px;
+            text-align: center;
+            margin-right: 70px;
         }
 
         /* خلفية صفحة الأسئلة */
@@ -56,12 +52,12 @@
                 url("mmap.jpg") no-repeat center center;
             background-size: cover;
             min-height: 100vh;
-            display: flex;
+            display: none;
+            /* تم التعديل هنا لإخفاء قسم الأسئلة في البداية */
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-
 
         h1 {
             color: #2c3e50;
@@ -282,7 +278,7 @@
         </div>
 
         <!-- قسم الأسئلة (مخفي في البداية) -->
-        <div id="quiz-container" class="hidden">
+        <div id="quiz-container">
             <div class="question-card fade-in">
                 <div class="question-text" id="question">السؤال يظهر هنا</div>
                 <input type="text" class="answer-input" id="user-answer" placeholder="اكتب إجابتك هنا...">
@@ -339,19 +335,10 @@
             const userAnswerElement = document.getElementById('user-answer');
             const hintElement = document.getElementById('hint');
 
-            // تحديث السؤال
             questionElement.textContent = questions[currentQuestionIndex].question;
-
-            // مسح حقل الإجابة السابقة
             userAnswerElement.value = '';
-
-            // إعطاء التركيز لحقل الإجابة
             userAnswerElement.focus();
-
-            // تحديث شريط التقدم
             progressElement.textContent = `السؤال ${currentQuestionIndex + 1} من ${questions.length}`;
-
-            // مسح أي تعليق سابق
             document.getElementById('feedback').textContent = '';
             hintElement.textContent = '';
         }
@@ -369,7 +356,6 @@
                 score++;
                 hintElement.textContent = '';
 
-                // الانتقال إلى السؤال التالي بعد تأخير قصير
                 setTimeout(() => {
                     currentQuestionIndex++;
                     if (currentQuestionIndex < questions.length) {
@@ -382,8 +368,6 @@
                 feedbackElement.textContent = "إجابة خاطئة! حاول مرة أخرى";
                 feedbackElement.className = "feedback incorrect";
                 hintElement.textContent = `تلميح: ${questions[currentQuestionIndex].hint}`;
-
-                // إعادة التركيز على حقل الإجابة
                 document.getElementById('user-answer').focus();
             }
         }
@@ -408,7 +392,6 @@
             currentQuestionIndex = 0;
             score = 0;
 
-            // إخفاء شاشة النتائج وإظهار قسم الأسئلة من جديد
             document.getElementById('quiz-container').innerHTML = `
                 <div class="question-card fade-in">
                     <div class="question-text" id="question">السؤال يظهر هنا</div>
@@ -420,10 +403,7 @@
                 </div>
             `;
 
-            // إعادة إرفاق حدث النقر على زر الإرسال
             document.getElementById('submit-btn').addEventListener('click', checkAnswer);
-
-            // إضافة إمكانية استخدام زر Enter لإرسال الإجابة
             document.getElementById('user-answer').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
                     checkAnswer();
@@ -435,13 +415,10 @@
 
         // بدء اللعبة عند النقر على زر البدء
         document.getElementById('start-btn').addEventListener('click', function () {
-            document.getElementById('welcome-screen').classList.add('hidden');
-            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'flex';
 
-            // إرفاق حدث النقر على زر الإرسال
             document.getElementById('submit-btn').addEventListener('click', checkAnswer);
-
-            // إضافة إمكانية استخدام زر Enter لإرسال الإجابة
             document.getElementById('user-answer').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
                     checkAnswer();
@@ -454,3 +431,4 @@
 </body>
 
 </html>
+
