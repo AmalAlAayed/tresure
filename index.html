@@ -85,6 +85,7 @@
         }
 
         h1 {
+            font-family: 'Cairo', sans-serif;
             color: #2c3e50;
             margin-bottom: 20px;
         }
@@ -147,7 +148,7 @@
         }
 
         .restart-btn {
-            background: linear-gradient(to bottom, #2ecc71, #27ae60);
+            background: #7ea356;
             color: white;
             margin-top: 15px;
             width: 80%;
@@ -158,21 +159,22 @@
         }
 
         .restart-btn:hover {
-            background: linear-gradient(to bottom, #27ae60, #2ecc71);
+            background: #8bb163;
             transform: translateY(-3px);
         }
 
         .show-all-btn {
-            background: #3498db;
+            background: #f0b070;
             color: white;
             width: 80%;
             max-width: 300px;
             margin: 0 auto;
             display: block;
+            margin-top: 20px;
         }
 
         .show-all-btn:hover {
-            background: #2980b9;
+            background: #ebb988;
             transform: translateY(-3px);
         }
 
@@ -279,10 +281,10 @@
         <!-- صفحة الترحيب -->
         <div id="welcome-screen" class="fade-in">
             <div class="welcome-card">
-                <h1 class="welcome-title">مرحباً بكم في لعبة الكنز!</h1>
+                <h1 class="welcome-title">مرحباً بكم في لعبة الكنز!🏴‍☠️</h1>
                 <div class="welcome-message">
                     <p>لعبة نسترجع فيها الماضي والذكريات!</p>
-                    <p>لعبة بسيطة صنعت بكل حب</p>
+                    <p>لعبة بسيطة صنعت بكل حب ❤️</p>
                 </div>
                 <button class="start-btn" id="start-btn">ابدأ اللعبة</button>
             </div>
@@ -307,7 +309,7 @@
         <!-- قسم كلمة السر -->
         <div id="password-container">
             <div class="password-card fade-in">
-                <div class="question-text">أدخل كلمة السر للمتابعة:</div>
+                <div class="question-text">أدخل كلمة السر للمتابعة: 🗝️</div>
                 <input type="text" class="answer-input" id="password-input" placeholder="كلمة السر هنا...">
                 <button class="submit-btn" id="password-submit-btn">تحقق</button>
                 <div class="feedback" id="password-feedback"></div>
@@ -318,12 +320,12 @@
 
     <script>
         const questions = [
-            { question: "ما هو الكائن الوحيد الذي يستطيع النوم على ظهره؟", correctAnswer: "الإنسان", hint: "(حرف الألف )قد شفتوه" },
-            { question: "ما هو الشيء الذي إذا أردته أغمضت عينيك له", correctAnswer: "النوم", hint: "حرف النون" },
+            { question: "ما هو الكائن الوحيد الذي يستطيع النوم على ظهره؟", correctAnswer: "الإنسان", hint: " (حرف الألف )قد شفتوه" },
+            { question: "ما هو الشيء الذي إذا أردته أغمضت عينيك له؟", correctAnswer: "النوم", hint: "حرف النون" },
             { question: "ما هي الدابة المعقود في نواصيها الخير إلى يوم القيامة؟", correctAnswer: "الخيل", hint: "حرف الخاء" },
-            { question: "ما هو الموت الأسود", correctAnswer: "الطاعون", hint: "حرف الطاء" },
-            { question: "تراه داخل البيت وخارجه", correctAnswer: "الباب", hint: "حرف الباء" },
-            { question: "ما اسم السورة التي ابتدأت باسم ثمرتين", correctAnswer: "التين", hint: "حرف التاء" }
+            { question: "ما هو الموت الأسود؟", correctAnswer: "الطاعون", hint: "حرف الطاء" },
+            { question: "تراه داخل البيت وخارجه؟", correctAnswer: "الباب", hint: "حرف الباء" },
+            { question: "ما اسم السورة التي ابتدأت باسم ثمرتين؟", correctAnswer: "التين", hint: "حرف التاء" }
         ];
 
         const passwords = ["إن", "ودع", "مرتحل", "هريرة", "الركب", "ودع هريرة إن الركب مرتحل"];
@@ -375,7 +377,7 @@
                 "ابحثوا عن الكلمة في ملتقى الأخوات حيث الحديث عن الشغالات",
                 "ابحثوا عن الكلمة في الملتقى الرائد بوجود القائد الوالد",
                 "ابحثوا عن الكلمة في موضع الأطباق حيث فيها المواعين التي لا تطاق",
-                "ابحثوا عن الكلمة في ملتقى الأطفال حيث اللعب, الصراخ والهبال",
+                "ابحثوا عن الكلمة في ملتقى الأطفال حيث اللعب و الصراخ والهبال",
                 "ابحثوا عن الكلمة في ملتقى البنات حيث السعادة والضحكات",
                 "رتبوا الكلمات الفريدة لتكون جملة مفيدة"
             ];
@@ -416,7 +418,7 @@
 
         function endQuiz() {
             const quizContainer = document.getElementById('quiz-container');
-            quizContainer.style.background = "linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('tre.png') no-repeat center center";
+            quizContainer.style.background = "linear-gradient(rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02)), url('tre.png') no-repeat center center";
             quizContainer.style.backgroundSize = "cover";
 
             quizContainer.innerHTML = `
