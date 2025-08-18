@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>لعبة الكنز</title>
     <style>
         body {
@@ -12,6 +12,7 @@
             padding: 0;
             color: #333;
             transition: all 0.5s;
+            overflow-x: hidden;
         }
 
         /* خلفية لصفحة الترحيب */
@@ -19,31 +20,31 @@
             background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.3)),
                 url("map.png") no-repeat center center;
             background-size: cover;
-            min-height: 300vh;
+            min-height: 100vh;
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
-            padding-right: 10%;
+            padding: 20px;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         .welcome-card {
             background-color: rgba(97, 36, 36, 0.05);
             border-radius: 15px;
-            padding: 10px;
+            padding: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            margin-bottom: 1200px;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             width: 90%;
             max-width: 500px;
             text-align: center;
-            margin-right: 70px;
+            margin: 0 auto;
         }
 
         /* خلفية صفحة الأسئلة */
@@ -53,7 +54,6 @@
             background-size: cover;
             min-height: 100vh;
             display: none;
-            /* تم التعديل هنا لإخفاء قسم الأسئلة في البداية */
             align-items: center;
             justify-content: center;
             padding: 20px;
@@ -61,35 +61,37 @@
 
         h1 {
             color: #2c3e50;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .welcome-title {
-            font-size: 2.5em;
+            font-size: 1.8em;
             color: #e67e22;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .welcome-message {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            line-height: 1.6;
+            font-size: 1em;
+            margin-bottom: 20px;
+            line-height: 1.5;
             color: #333;
         }
 
         .start-btn {
-            padding: 15px 30px;
+            padding: 12px 25px;
             background: linear-gradient(to bottom, #e67e22, #d35400);
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1.2em;
+            font-size: 1em;
             transition: all 0.3s;
-            margin-top: 20px;
+            margin-top: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 200px;
         }
 
         .start-btn:hover {
@@ -99,23 +101,34 @@
         }
 
         /* أنماط قسم الأسئلة */
+        .question-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            width: 90%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
         .question-text {
-            font-size: 1.5em;
-            margin-bottom: 25px;
+            font-size: 1.2em;
+            margin-bottom: 20px;
             color: #2c3e50;
             font-weight: bold;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .answer-input {
-            width: 80%;
-            padding: 12px 20px;
-            font-size: 1.1em;
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1em;
             border: 2px solid #3498db;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             transition: all 0.3s;
             background-color: rgba(255, 255, 255, 0.9);
+            box-sizing: border-box;
         }
 
         .answer-input:focus {
@@ -132,10 +145,14 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1.1em;
+            font-size: 1em;
             transition: all 0.3s;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            display: block;
         }
 
         .submit-btn:hover {
@@ -145,13 +162,14 @@
         }
 
         .feedback {
-            font-size: 1.2em;
+            font-size: 1em;
             font-weight: bold;
-            margin: 20px 0;
+            margin: 15px 0;
             min-height: 30px;
-            padding: 12px;
+            padding: 10px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         .correct {
@@ -167,20 +185,22 @@
         }
 
         .progress {
-            font-size: 1.1em;
+            font-size: 1em;
             color: #7f8c8d;
-            margin-top: 20px;
+            margin-top: 15px;
             font-weight: bold;
+            text-align: center;
         }
 
         .score-container {
-            font-size: 1.3em;
-            margin-top: 30px;
-            padding: 20px;
+            font-size: 1.1em;
+            margin-top: 20px;
+            padding: 15px;
             background-color: rgba(236, 240, 241, 0.9);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.5);
+            text-align: center;
         }
 
         .restart-btn {
@@ -190,11 +210,15 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1.1em;
-            margin-top: 20px;
+            font-size: 1em;
+            margin-top: 15px;
             transition: all 0.3s;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 200px;
+            margin: 0 auto;
+            display: block;
         }
 
         .restart-btn:hover {
@@ -211,6 +235,7 @@
             background-color: rgba(243, 156, 18, 0.15);
             border-radius: 5px;
             border: 1px solid rgba(243, 156, 18, 0.3);
+            text-align: center;
         }
 
         .hidden {
@@ -235,28 +260,26 @@
         }
 
         /* تصميم متجاوب */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-                width: 95%;
-            }
-
-            .welcome-card,
-            .question-card {
-                padding: 20px;
-                margin: 10px;
-            }
-
-            .answer-input {
-                width: 90%;
-            }
-
+        @media (max-width: 480px) {
             .welcome-title {
-                font-size: 2em;
+                font-size: 1.5em;
             }
-
+            
+            .welcome-message {
+                font-size: 0.9em;
+            }
+            
             .question-text {
-                font-size: 1.3em;
+                font-size: 1.1em;
+            }
+            
+            .answer-input {
+                padding: 10px 12px;
+                font-size: 0.9em;
+            }
+            
+            .welcome-card, .question-card {
+                padding: 15px;
             }
         }
     </style>
@@ -431,4 +454,3 @@
 </body>
 
 </html>
-
