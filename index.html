@@ -5,9 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>لعبة الكنز</title>
+
+    <!-- خط عربي جميل -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
             color: #333;
@@ -15,17 +19,36 @@
             overflow-x: hidden;
         }
 
-        /* خلفية لصفحة الترحيب */
+        /* خلفيات صفحات */
+        #welcome-screen,
+        #quiz-container,
+        #password-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            padding-top: 40px;
+        }
+
         #welcome-screen {
             background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.3)),
                 url("map.png") no-repeat center center;
             background-size: cover;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-            padding-top: 40px;
+        }
+
+        #quiz-container {
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+                url("mmap.png") no-repeat center center;
+            background-size: cover;
+            display: none;
+        }
+
+        #password-container {
+            background: linear-gradient(rgba(19, 64, 160, 0.1), rgba(0, 0, 0, 0.2)),
+                url("ser.png") no-repeat center center;
+            background-size: cover;
+            display: none;
         }
 
         .container {
@@ -35,78 +58,30 @@
             padding: 0;
         }
 
-        .welcome-card {
-            background-color: rgba(97, 36, 36, 0.05);
+        .welcome-card,
+        .question-card,
+        .password-card {
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
             width: 90%;
             max-width: 500px;
-            text-align: center;
             margin: 0 auto;
-            margin-top: 20px;
+            text-align: center;
         }
 
-        /* خلفية صفحة الأسئلة */
-        #quiz-container {
-            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-                url("mmap.png") no-repeat center center;
-            background-size: cover;
-            min-height: 100vh;
-            display: none;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 20px;
-            padding-top: 40px;
-        }
-
-        /* صفحة كلمة السر */
-        #password-container {
-            background: linear-gradient(rgba(19, 64, 160, 0.1), rgba(0, 0, 0, 0.2)),
-                url("ser.png") no-repeat center center;
-            background-size: cover;
-            min-height: 100vh;
-            display: none;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 20px;
-            padding-top: 40px;
+        .welcome-card {
+            background-color: rgba(97, 36, 36, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .question-card {
             background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            width: 90%;
-            max-width: 500px;
-            margin: 0 auto;
-            margin-top: 20px;
         }
 
         .password-card {
             background-color: rgba(255, 255, 255, 0.09);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            width: 90%;
-            max-width: 500px;
-            margin: 0 auto;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        /* خلفية صفحة النتيجة */
-        #quiz-container .result-screen {
-            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-                url("tre.png") no-repeat center center;
-            background-size: cover;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         h1 {
@@ -128,18 +103,24 @@
             color: #333;
         }
 
-        .start-btn {
+        .start-btn,
+        .submit-btn,
+        .restart-btn,
+        .show-all-btn {
             padding: 12px 25px;
-            background: #a5c6cd;
-            color: #134955;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1em;
             transition: all 0.3s;
-            margin-top: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-btn {
+            background: #a5c6cd;
+            color: #134955;
+            margin-top: 15px;
             width: 80%;
             max-width: 200px;
         }
@@ -148,6 +129,51 @@
             background: #cfe2e6;
             transform: scale(1.05);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn {
+            background: #cb9b69;
+            color: white;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .submit-btn:hover {
+            background: #ca7a42;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .restart-btn {
+            background: linear-gradient(to bottom, #2ecc71, #27ae60);
+            color: white;
+            margin-top: 15px;
+            width: 80%;
+            max-width: 200px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .restart-btn:hover {
+            background: linear-gradient(to bottom, #27ae60, #2ecc71);
+            transform: translateY(-3px);
+        }
+
+        .show-all-btn {
+            background: #3498db;
+            color: white;
+            width: 80%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .show-all-btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
         }
 
         .question-text {
@@ -174,30 +200,7 @@
             border-color: #7ea356;
             box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
             outline: none;
-            background-color: rgb(248, 242, 242, 0.02);
-        }
-
-        .submit-btn {
-            padding: 12px 25px;
-            background: #cb9b69;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 200px;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .submit-btn:hover {
-            background: #ca7a42;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            background-color: rgba(248, 242, 242, 0.02);
         }
 
         .feedback {
@@ -207,7 +210,6 @@
             min-height: 30px;
             padding: 10px;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
@@ -223,51 +225,8 @@
             border: 1px solid rgba(231, 76, 60, 0.3);
         }
 
-        .progress {
-            font-size: 1em;
-            color: #7f8c8d;
-            margin-top: 15px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .score-container {
-            font-size: 1.1em;
-            margin-top: 20px;
-            padding: 15px;
-            background-color: rgba(236, 240, 241, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            text-align: center;
-        }
-
-        .restart-btn {
-            padding: 12px 25px;
-            background: linear-gradient(to bottom, #2ecc71, #27ae60);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 15px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            width: 80%;
-            max-width: 200px;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .restart-btn:hover {
-            background: linear-gradient(to bottom, #27ae60, #2ecc71);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-        }
-
         .hint {
-            color: #f39c12;
+            color: #81550f;
             font-style: italic;
             margin: 15px 0;
             padding: 10px;
@@ -278,8 +237,22 @@
             display: block;
         }
 
-        .hidden {
-            display: none;
+        /* Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            height: 15px;
+            background-color: rgba(200, 200, 200, 0.4);
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            border-radius: 10px;
+            transition: width 0.5s ease;
         }
 
         /* تأثيرات الحركة */
@@ -298,38 +271,6 @@
         .fade-in {
             animation: fadeIn 0.5s ease-out forwards;
         }
-
-        /* تصميم متجاوب */
-        @media (max-width: 480px) {
-            .welcome-title {
-                font-size: 1.5em;
-            }
-
-            .welcome-message {
-                font-size: 0.9em;
-            }
-
-            .question-text {
-                font-size: 1.1em;
-            }
-
-            .answer-input {
-                padding: 10px 12px;
-                font-size: 0.9em;
-            }
-
-            .welcome-card,
-            .question-card,
-            .password-card {
-                padding: 15px;
-            }
-
-            #welcome-screen,
-            #quiz-container,
-            #password-container {
-                padding-top: 20px;
-            }
-        }
     </style>
 </head>
 
@@ -340,14 +281,14 @@
             <div class="welcome-card">
                 <h1 class="welcome-title">مرحباً بكم في لعبة الكنز!</h1>
                 <div class="welcome-message">
-                    <p> لعبة نسترجع فيها الماضي والذكريات !</p>
-                    <p>لعبة بسيطة صنعت بكل حب </p>
+                    <p>لعبة نسترجع فيها الماضي والذكريات!</p>
+                    <p>لعبة بسيطة صنعت بكل حب</p>
                 </div>
                 <button class="start-btn" id="start-btn">ابدأ اللعبة</button>
             </div>
         </div>
 
-        <!-- قسم الأسئلة (مخفي في البداية) -->
+        <!-- قسم الأسئلة -->
         <div id="quiz-container">
             <div class="question-card fade-in">
                 <div class="question-text" id="question">السؤال يظهر هنا</div>
@@ -355,11 +296,15 @@
                 <input type="text" class="answer-input" id="user-answer" placeholder="اكتب إجابتك هنا...">
                 <button class="submit-btn" id="submit-btn">إرسال الإجابة</button>
                 <div class="feedback" id="feedback"></div>
-                <div class="progress" id="progress">السؤال 1 من 6</div>
+
+                <!-- شريط التقدم -->
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
 
-        <!-- قسم كلمة السر (مخفي في البداية) -->
+        <!-- قسم كلمة السر -->
         <div id="password-container">
             <div class="password-card fade-in">
                 <div class="question-text">أدخل كلمة السر للمتابعة:</div>
@@ -372,63 +317,38 @@
     </div>
 
     <script>
-        // قائمة الأسئلة والأجوبة (بدون أسئلة كلمة السر)
         const questions = [
-            {
-                question: "ما هو الكائن الوحيد الذي يستطيع النوم على ظهره؟",
-                correctAnswer: "الإنسان",
-                hint: "(حرف الألف )قد شفتوه"
-            },
-            {
-                question: "ما هو الشيء الذي إذا أردته أغمضت عينيك له",
-                correctAnswer: "النوم",
-                hint: "حرف النون"
-            },
-            {
-                question: "ما هي الدابة المعقود في نواصيها الخير إلى يوم القيامة؟",
-                correctAnswer: "الخيل",
-                hint: "حرف الخاء "
-            },
-            {
-                question: " ما هو الموت الأسود ",
-                correctAnswer: "الطاعون",
-                hint: "حرف الطاء "
-            },
-            {
-                question: "تراه داخل البيت وخارجه",
-                correctAnswer: "الباب",
-                hint: " حرف الباء "
-            },
-            {
-                question: "ما اسم السورة التي ابتدأت باسم ثمرتين",
-                correctAnswer: "التين",
-                hint: "حرف التاء"
-            }
+            { question: "ما هو الكائن الوحيد الذي يستطيع النوم على ظهره؟", correctAnswer: "الإنسان", hint: "(حرف الألف )قد شفتوه" },
+            { question: "ما هو الشيء الذي إذا أردته أغمضت عينيك له", correctAnswer: "النوم", hint: "حرف النون" },
+            { question: "ما هي الدابة المعقود في نواصيها الخير إلى يوم القيامة؟", correctAnswer: "الخيل", hint: "حرف الخاء" },
+            { question: "ما هو الموت الأسود", correctAnswer: "الطاعون", hint: "حرف الطاء" },
+            { question: "تراه داخل البيت وخارجه", correctAnswer: "الباب", hint: "حرف الباء" },
+            { question: "ما اسم السورة التي ابتدأت باسم ثمرتين", correctAnswer: "التين", hint: "حرف التاء" }
         ];
 
-        // كلمات السر المطلوبة
         const passwords = ["إن", "ودع", "مرتحل", "هريرة", "الركب", "ودع هريرة إن الركب مرتحل"];
 
         let currentQuestionIndex = 0;
         let score = 0;
         let currentPasswordIndex = 0;
 
-        // عرض السؤال الحالي
         function displayQuestion() {
             const questionElement = document.getElementById('question');
             const hintDisplayElement = document.getElementById('hint-display');
             const userAnswerElement = document.getElementById('user-answer');
-            const progressElement = document.getElementById('progress');
+            const progressBar = document.getElementById('progress-bar');
 
             questionElement.textContent = questions[currentQuestionIndex].question;
             hintDisplayElement.textContent = `تلميح: ${questions[currentQuestionIndex].hint}`;
             userAnswerElement.value = '';
             userAnswerElement.focus();
-            progressElement.textContent = `السؤال ${currentQuestionIndex + 1} من ${questions.length}`;
             document.getElementById('feedback').textContent = '';
+
+            // تحديث progress bar
+            const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = progressPercent + "%";
         }
 
-        // التحقق من الإجابة
         function checkAnswer() {
             const userAnswer = document.getElementById('user-answer').value.trim();
             const feedbackElement = document.getElementById('feedback');
@@ -439,10 +359,7 @@
                 feedbackElement.className = "feedback correct";
                 score++;
 
-                // الانتقال إلى صفحة كلمة السر بعد كل إجابة صحيحة
-                setTimeout(() => {
-                    showPasswordScreen();
-                }, 1000);
+                setTimeout(() => { showPasswordScreen(); }, 1000);
             } else {
                 feedbackElement.textContent = "إجابة خاطئة! حاول مرة أخرى";
                 feedbackElement.className = "feedback incorrect";
@@ -450,19 +367,17 @@
             }
         }
 
-        // عرض شاشة كلمة السر
         function showPasswordScreen() {
             document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('password-container').style.display = 'flex';
 
-            // عرض تلميح عشوائي لكلمة السر
             const passwordHints = [
-                "ابحثوا عن الكلمة في ملتقى الأخوات حيث الحديث عن الشغالات ",
+                "ابحثوا عن الكلمة في ملتقى الأخوات حيث الحديث عن الشغالات",
                 "ابحثوا عن الكلمة في الملتقى الرائد بوجود القائد الوالد",
-                "ابحثوا عن الكلمة في موضع الأطباق حيث فيها المواعين التي لا تطاق    ",
-                " ابحثوا عن الكلمة في ملتقى الأطفال حيث اللعب ,الصراخ والهبال ",
-                "ابحثوا عن الكلمة في ملتقى البنات حيث السعادة والضحكات   ",
-                "رتبوا الكلمات الفريدة لتكون جملة مفيدة "
+                "ابحثوا عن الكلمة في موضع الأطباق حيث فيها المواعين التي لا تطاق",
+                "ابحثوا عن الكلمة في ملتقى الأطفال حيث اللعب, الصراخ والهبال",
+                "ابحثوا عن الكلمة في ملتقى البنات حيث السعادة والضحكات",
+                "رتبوا الكلمات الفريدة لتكون جملة مفيدة"
             ];
 
             document.getElementById('password-hint').textContent = `تلميح: ${passwordHints[currentPasswordIndex]}`;
@@ -471,7 +386,6 @@
             document.getElementById('password-feedback').textContent = '';
         }
 
-        // التحقق من كلمة السر
         function checkPassword() {
             const userPassword = document.getElementById('password-input').value.trim();
             const feedbackElement = document.getElementById('password-feedback');
@@ -500,98 +414,77 @@
             }
         }
 
-        // إنهاء الاختبار
         function endQuiz() {
             const quizContainer = document.getElementById('quiz-container');
             quizContainer.style.background = "linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('tre.png') no-repeat center center";
             quizContainer.style.backgroundSize = "cover";
 
             quizContainer.innerHTML = `
-        <div class="question-card fade-in" style="background-color: rgba(255, 255, 255, 0.8);">
-            <h2>تهانينا! لقد وجدتم الكنز! 🏆</h2>
-            <div class="score-container">
-                درجتك النهائية: ${score} من ${questions.length}
-            </div>
-            <p> ارجعوا إلى الملتقى حيث نلتقي بالكنز </p>
-            <button class="restart-btn" onclick="restartQuiz()">العب مرة أخرى</button>
-        </div>
-    `;
+                <div class="question-card fade-in" style="background-color: rgba(255, 255, 255, 0.8);">
+                    <h2>تهانينا! لقد وجدتم الكنز! 🏆</h2>
+                    <div class="score-container">
+                        درجتك النهائية: ${score} من ${questions.length}
+                    </div>
+                    <p>ارجعوا إلى الملتقى حيث نلتقي بالكنز</p>
+                    <button class="restart-btn" onclick="restartQuiz()">العب مرة أخرى</button>
+                    <button class="show-all-btn" onclick="showAllQuestions()">عرض جميع الأسئلة والتلميحات</button>
+                </div>
+            `;
             document.getElementById('quiz-container').style.display = 'flex';
             document.getElementById('password-container').style.display = 'none';
         }
 
-        // إعادة تشغيل الاختبار
+        function showAllQuestions() {
+            const quizContainer = document.getElementById('quiz-container');
+            let questionsHTML = `
+                <div class="question-card fade-in" style="background-color: rgba(255, 255, 255, 0.8);">
+                    <h2>جميع الأسئلة والتلميحات</h2>
+                    <div class="questions-list">
+            `;
+            questions.forEach((q, index) => {
+                questionsHTML += `
+                    <div class="question-item">
+                        <h3>السؤال ${index + 1}:</h3>
+                        <p><strong>${q.question}</strong></p>
+                        <p><em>الجواب الصحيح: ${q.correctAnswer}</em></p>
+                        <p class="hint">${q.hint}</p>
+                    </div>
+                `;
+            });
+            questionsHTML += `
+                    </div>
+                    <button class="restart-btn" onclick="restartQuiz()">العب مرة أخرى</button>
+                </div>
+            `;
+            quizContainer.innerHTML = questionsHTML;
+        }
+
         function restartQuiz() {
             currentQuestionIndex = 0;
             score = 0;
             currentPasswordIndex = 0;
-
-            document.getElementById('quiz-container').innerHTML = `
-                <div class="question-card fade-in">
-                    <div class="question-text" id="question">السؤال يظهر هنا</div>
-                    <div class="hint" id="hint-display"></div>
-                    <input type="text" class="answer-input" id="user-answer" placeholder="اكتب إجابتك هنا...">
-                    <button class="submit-btn" id="submit-btn">إرسال الإجابة</button>
-                    <div class="feedback" id="feedback"></div>
-                    <div class="progress" id="progress">السؤال 1 من ${questions.length}</div>
-                </div>
-            `;
-
-            document.getElementById('password-container').innerHTML = `
-                <div class="password-card fade-in">
-                    <div class="question-text">أدخل كلمة السر للمتابعة:</div>
-                    <input type="text" class="answer-input" id="password-input" placeholder="كلمة السر هنا...">
-                    <button class="submit-btn" id="password-submit-btn">تحقق</button>
-                    <div class="feedback" id="password-feedback"></div>
-                    <div class="hint" id="password-hint"></div>
-                </div>
-            `;
-
-            // إعادة تعيين معالجات الأحداث
-            document.getElementById('submit-btn').addEventListener('click', checkAnswer);
-            document.getElementById('user-answer').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    checkAnswer();
-                }
-            });
-
-            document.getElementById('password-submit-btn').addEventListener('click', checkPassword);
-            document.getElementById('password-input').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    checkPassword();
-                }
-            });
-
-            document.getElementById('quiz-container').style.display = 'none';
-            document.getElementById('password-container').style.display = 'none';
-            document.getElementById('welcome-screen').style.display = 'flex';
+            location.reload(); // أبسط طريقة لإعادة تعيين كل العناصر
         }
 
-        // بدء اللعبة عند النقر على زر البدء
         document.getElementById('start-btn').addEventListener('click', function () {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('quiz-container').style.display = 'flex';
-
-            document.getElementById('submit-btn').addEventListener('click', checkAnswer);
-            document.getElementById('user-answer').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    checkAnswer();
-                }
-            });
-
-            document.getElementById('password-submit-btn').addEventListener('click', checkPassword);
-            document.getElementById('password-input').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    checkPassword();
-                }
-            });
-
             displayQuestion();
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', checkAnswer);
+        document.getElementById('password-submit-btn').addEventListener('click', checkPassword);
+
+        document.getElementById('user-answer').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkAnswer();
+        });
+
+        document.getElementById('password-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkPassword();
         });
     </script>
 </body>
 
 </html>
-
 
 
