@@ -98,6 +98,17 @@
             text-align: center;
         }
 
+        /* خلفية صفحة النتيجة */
+        #quiz-container .result-screen {
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+                url("tre.png") no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         h1 {
             color: #2c3e50;
             margin-bottom: 20px;
@@ -163,12 +174,12 @@
             border-color: #7ea356;
             box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
             outline: none;
-            background-color: rgb(248, 242, 242,0.02);
+            background-color: rgb(248, 242, 242, 0.02);
         }
 
         .submit-btn {
             padding: 12px 25px;
-            background:  #cb9b69;
+            background: #cb9b69;
             color: white;
             border: none;
             border-radius: 8px;
@@ -258,12 +269,13 @@
         .hint {
             color: #f39c12;
             font-style: italic;
-            margin-top: 10px;
+            margin: 15px 0;
             padding: 10px;
             background-color: rgba(243, 156, 18, 0.15);
             border-radius: 5px;
             border: 1px solid rgba(243, 156, 18, 0.3);
             text-align: center;
+            display: block;
         }
 
         .hidden {
@@ -328,7 +340,7 @@
             <div class="welcome-card">
                 <h1 class="welcome-title">مرحباً بكم في لعبة الكنز!</h1>
                 <div class="welcome-message">
-                    <p> لعبة نسترجع فيها الماضي والذكريات     !</p>
+                    <p> لعبة نسترجع فيها الماضي والذكريات !</p>
                     <p>لعبة بسيطة صنعت بكل حب </p>
                 </div>
                 <button class="start-btn" id="start-btn">ابدأ اللعبة</button>
@@ -339,11 +351,11 @@
         <div id="quiz-container">
             <div class="question-card fade-in">
                 <div class="question-text" id="question">السؤال يظهر هنا</div>
+                <div class="hint" id="hint-display"></div>
                 <input type="text" class="answer-input" id="user-answer" placeholder="اكتب إجابتك هنا...">
                 <button class="submit-btn" id="submit-btn">إرسال الإجابة</button>
                 <div class="feedback" id="feedback"></div>
-                <div class="hint" id="hint"></div>
-             
+                <div class="progress" id="progress">السؤال 1 من 6</div>
             </div>
         </div>
 
@@ -379,10 +391,9 @@
             },
             {
                 question: " ما هو الموت الأسود ",
-                correctAnswer: "الطاعون ",
+                correctAnswer: "الطاعون",
                 hint: "حرف الطاء "
             },
-
             {
                 question: "تراه داخل البيت وخارجه",
                 correctAnswer: "الباب",
@@ -405,30 +416,28 @@
         // عرض السؤال الحالي
         function displayQuestion() {
             const questionElement = document.getElementById('question');
-            const progressElement = document.getElementById('progress');
+            const hintDisplayElement = document.getElementById('hint-display');
             const userAnswerElement = document.getElementById('user-answer');
-            const hintElement = document.getElementById('hint');
+            const progressElement = document.getElementById('progress');
 
             questionElement.textContent = questions[currentQuestionIndex].question;
+            hintDisplayElement.textContent = `تلميح: ${questions[currentQuestionIndex].hint}`;
             userAnswerElement.value = '';
             userAnswerElement.focus();
             progressElement.textContent = `السؤال ${currentQuestionIndex + 1} من ${questions.length}`;
             document.getElementById('feedback').textContent = '';
-            hintElement.textContent = '';
         }
 
         // التحقق من الإجابة
         function checkAnswer() {
             const userAnswer = document.getElementById('user-answer').value.trim();
             const feedbackElement = document.getElementById('feedback');
-            const hintElement = document.getElementById('hint');
             const correctAnswer = questions[currentQuestionIndex].correctAnswer;
 
             if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
                 feedbackElement.textContent = "إجابة صحيحة! ✓";
                 feedbackElement.className = "feedback correct";
                 score++;
-                hintElement.textContent = '';
 
                 // الانتقال إلى صفحة كلمة السر بعد كل إجابة صحيحة
                 setTimeout(() => {
@@ -437,7 +446,6 @@
             } else {
                 feedbackElement.textContent = "إجابة خاطئة! حاول مرة أخرى";
                 feedbackElement.className = "feedback incorrect";
-                hintElement.textContent = `تلميح: ${questions[currentQuestionIndex].hint}`;
                 document.getElementById('user-answer').focus();
             }
         }
@@ -452,14 +460,12 @@
                 "ابحثوا عن الكلمة في ملتقى الأخوات حيث الحديث عن الشغالات ",
                 "ابحثوا عن الكلمة في الملتقى الرائد بوجود القائد الوالد",
                 "ابحثوا عن الكلمة في موضع الأطباق حيث فيها المواعين التي لا تطاق    ",
-                " ابحثوا عن الكلمة في ملتقى الأطفال حيث اللعب الصراخ والهبال ",
+                " ابحثوا عن الكلمة في ملتقى الأطفال حيث اللعب ,الصراخ والهبال ",
                 "ابحثوا عن الكلمة في ملتقى البنات حيث السعادة والضحكات   ",
-                "رتبوا الكلمات لتكون جملة "
-
+                "رتبوا الكلمات الفريدة لتكون جملة مفيدة "
             ];
 
             document.getElementById('password-hint').textContent = `تلميح: ${passwordHints[currentPasswordIndex]}`;
-
             document.getElementById('password-input').value = '';
             document.getElementById('password-input').focus();
             document.getElementById('password-feedback').textContent = '';
@@ -497,16 +503,19 @@
         // إنهاء الاختبار
         function endQuiz() {
             const quizContainer = document.getElementById('quiz-container');
+            quizContainer.style.background = "linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('tre.png') no-repeat center center";
+            quizContainer.style.backgroundSize = "cover";
+
             quizContainer.innerHTML = `
-                <div class="question-card fade-in">
-                    <h2>تهانينا! لقد وجدتم الكنز! 🏆</h2>
-                    <div class="score-container">
-                        درجتك النهائية: ${score} من ${questions.length}
-                    </div>
-                    <p> ارجعوا إلى الملتقى حيث نلتقي بالكنز </p>
-                    <button class="restart-btn" onclick="restartQuiz()">العب مرة أخرى</button>
-                </div>
-            `;
+        <div class="question-card fade-in" style="background-color: rgba(255, 255, 255, 0.8);">
+            <h2>تهانينا! لقد وجدتم الكنز! 🏆</h2>
+            <div class="score-container">
+                درجتك النهائية: ${score} من ${questions.length}
+            </div>
+            <p> ارجعوا إلى الملتقى حيث نلتقي بالكنز </p>
+            <button class="restart-btn" onclick="restartQuiz()">العب مرة أخرى</button>
+        </div>
+    `;
             document.getElementById('quiz-container').style.display = 'flex';
             document.getElementById('password-container').style.display = 'none';
         }
@@ -520,10 +529,10 @@
             document.getElementById('quiz-container').innerHTML = `
                 <div class="question-card fade-in">
                     <div class="question-text" id="question">السؤال يظهر هنا</div>
+                    <div class="hint" id="hint-display"></div>
                     <input type="text" class="answer-input" id="user-answer" placeholder="اكتب إجابتك هنا...">
                     <button class="submit-btn" id="submit-btn">إرسال الإجابة</button>
                     <div class="feedback" id="feedback"></div>
-                    <div class="hint" id="hint"></div>
                     <div class="progress" id="progress">السؤال 1 من ${questions.length}</div>
                 </div>
             `;
