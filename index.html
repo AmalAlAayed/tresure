@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
@@ -23,9 +23,9 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* تغيير من center إلى flex-start */
+            align-items: flex-start;
             padding: 20px;
-            padding-top: 40px; /* إضافة حشوة علوية */
+            padding-top: 40px;
         }
 
         .container {
@@ -46,19 +46,31 @@
             max-width: 500px;
             text-align: center;
             margin: 0 auto;
-            margin-top: 20px; /* إضافة هامش علوي */
+            margin-top: 20px;
         }
 
         /* خلفية صفحة الأسئلة */
         #quiz-container {
             background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-                url("mmap.png") no-repeat center center;
+                url("mmap.jpg") no-repeat center center;
             background-size: cover;
             min-height: 100vh;
             display: none;
-            align-items: center;
+            align-items: flex-start; /* تغيير من center إلى flex-start */
             justify-content: center;
             padding: 20px;
+            padding-top: 40px; /* إضافة حشوة علوية */
+        }
+
+        .question-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            width: 90%;
+            max-width: 500px;
+            margin: 0 auto;
+            margin-top: 20px; /* إضافة هامش علوي */
         }
 
         h1 {
@@ -100,17 +112,6 @@
             background: linear-gradient(to bottom, #d35400, #e67e22);
             transform: scale(1.05);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        /* أنماط قسم الأسئلة */
-        .question-card {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            width: 90%;
-            max-width: 500px;
-            margin: 0 auto;
         }
 
         .question-text {
@@ -282,6 +283,10 @@
             
             .welcome-card, .question-card {
                 padding: 15px;
+            }
+            
+            #welcome-screen, #quiz-container {
+                padding-top: 20px;
             }
         }
     </style>
